@@ -1,1 +1,139 @@
-<p>register works!</p>
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="auth-header">
+        <a href="javascript:"><img src="assets/images/logo-dark.svg" alt="logo img" /></a>
+      </div>
+      <div class="card my-5">
+        <div class="card-body">
+          <form [formGroup]="SignUpForm" (ngSubmit)="submit()">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+              <h3 class="mb-0"><b>Sign up</b></h3>
+              <a [routerLink]="['/']" class="link-primary">Already have an account?</a>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label class="form-label" for="firstName">First Name*</label>
+                  <input type="text" class="form-control" formControlName="firstName" id="firstName"
+                    placeholder="First Name" />
+                  @if (SignUpForm.get('firstName')) {
+                  @if (SignUpForm.get('firstName')?.hasError('required') && SignUpForm.get('firstName')?.touched)
+                  {
+                  <div class="text-danger">First Name is required</div>
+                  }
+
+                  @if (SignUpForm.get('firstName')?.hasError('pattern') && SignUpForm.get('firstName')?.touched)
+                  {
+                  <div class="text-danger">Enter valid First Name</div>
+                  }
+                  }
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label class="form-label" for="lastName">Last Name*</label>
+                  <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                    placeholder="Last Name" />
+                  @if (SignUpForm.get('lastName')) {
+                  @if (SignUpForm.get('lastName')?.hasError('required') && SignUpForm.get('lastName')?.touched)
+                  {
+                  <div class="text-danger">Last Name is required</div>
+                  }
+
+                  @if (SignUpForm.get('lastName')?.hasError('pattern') && SignUpForm.get('lastName')?.touched)
+                  {
+                  <div class="text-danger"> Enter Valid Last Name </div>
+                  }
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="company">Company</label>
+              <input type="text" class="form-control" id="company" formControlName="company" placeholder="Company" />
+              @if (SignUpForm.get('company')) {
+              @if (SignUpForm.get('company')?.hasError('required') && SignUpForm.get('company')?.touched)
+              {
+              <div class="text-danger">Company Name is required</div>
+              }
+              }
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="emailAddress">Email Address*</label>
+              <input type="email" class="form-control" id="emailAddress" formControlName="emailAddress"
+                placeholder="Email Address" />
+              @if (SignUpForm.get('emailAddress')) {
+              @if (SignUpForm.get('emailAddress')?.hasError('required') && SignUpForm.get('emailAddress')?.touched)
+              {
+              <div class="text-danger">Email Id is required</div>
+              }
+
+              @if (SignUpForm.get('emailAddress')?.hasError('email') && SignUpForm.get('emailAddress')?.touched)
+              {
+              <div class="text-danger">Enter Valid email-id</div>
+              }
+              }
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input type="password" class="form-control" id="password" formControlName="password"
+                placeholder="Password" />
+              @if (SignUpForm.get('password')) {
+              @if (SignUpForm.get('password')?.hasError('required') && SignUpForm.get('password')?.touched)
+              {
+              <div class="text-danger">Password is required</div>
+              }
+
+              @if (SignUpForm.get('password')?.hasError('pattern') && SignUpForm.get('password')?.touched)
+              {
+              <div class="text-danger">Invalid password</div>
+              }
+              }
+            </div>
+            <p class="mt-4 text-sm text-muted">By Signing up, you agree to our <a href="javascript:"
+                class="text-primary"> Terms of Service </a> and
+              <a href="javascript:" class="text-primary"> Privacy Policy</a>
+            </p>
+            <div class="d-grid mt-3">
+              <p-toast></p-toast>
+              <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="SignUpForm.invalid">Create
+                Account</button>
+            </div>
+          </form>
+          <div class="saprator mt-3">
+            <span>Sign up with</span>
+          </div>
+          <div class="row">
+            @for (item of SignUpOptions; track item) {
+            <div class="col-4">
+              <div class="d-grid">
+                <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted">
+                  <img src="{{ item.image }}" alt="google img" />
+                  <span class="d-none d-sm-inline-block"> {{ item.name }}</span>
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="auth-footer row">
+        <!-- <div class=""> -->
+        <div class="col my-1">
+          <p class="m-0">Copyright © <a href="https://codedthemes.com/" target="_blank">CodedThemes</a></p>
+        </div>
+        <div class="col-auto my-1">
+          <ul class="list-inline footer-link mb-0">
+            <li class="list-inline-item"><a href="https://codedthemes.com/" target="_blank">Home</a></li>
+            <li class="list-inline-item"><a href="https://codedthemes.com/privacy-policy/" target="_blank">Privacy
+                Policy</a></li>
+            <li class="list-inline-item"><a href="https://codedthemes.support-hub.io/" target="_blank">Contact us</a>
+            </li>
+          </ul>
+        </div>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>

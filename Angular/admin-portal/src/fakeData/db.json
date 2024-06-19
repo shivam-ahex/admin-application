@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "id": "c3ae",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "Akash@1234$"
+    },
+    {
+      "id": "d8f9",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "AkashEry@123"
+    },
+    {
+      "id": "48aa",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "Sajhlkah$1"
+    },
+    {
+      "id": "dcf9",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "Akfjlkejfh@3"
+    },
+    {
+      "id": "7017",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "AkashEry@123"
+    },
+    {
+      "id": "8b86",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "Akash@1234"
+    },
+    {
+      "id": "53c8",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "Akash@1234"
+    },
+    {
+      "id": "153a",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "emailAddress": "akasharupali@gmail.com",
+      "password": "Akash@1234"
+    }
+  ]
+}
