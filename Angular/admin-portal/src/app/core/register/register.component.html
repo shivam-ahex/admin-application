@@ -68,7 +68,10 @@
               {
               <div class="text-danger">Email Id is required</div>
               }
-
+              
+              <div *ngIf="SignUpForm.get('emailAddress')?.hasError('emailDomain') "class="text-danger">
+                Invalid email format.
+              </div>
               @if (SignUpForm.get('emailAddress')?.hasError('email') && SignUpForm.get('emailAddress')?.touched)
               {
               <div class="text-danger">Enter Valid email-id</div>
@@ -105,19 +108,35 @@
             <span>Sign up with</span>
           </div>
           <div class="row">
-            @for (item of SignUpOptions; track item) {
             <div class="col-4">
               <div class="d-grid">
                 <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted">
-                  <img src="{{ item.image }}" alt="google img" />
-                  <span class="d-none d-sm-inline-block"> {{ item.name }}</span>
+                  <img src="assets/images/authentication/google.svg" alt="google img" />
+                  <span class="d-none d-sm-inline-block">Google</span>
                 </button>
               </div>
             </div>
-            }
+          </div>
+          <div id="g_id_onload"
+            data-client_id="283540103373-v6qs81r1e91mknsogbnqcat42kpit2oi.apps.googleusercontent.com"
+             data-context="use"
+            data-ux_mode="popup"
+             data-login_uri="localhost:3000/users" 
+             data-auto_select="true" 
+             data-itp_support="true">
+          </div>
+
+          <div class="g_id_signin" 
+            data-type="standard"
+           data-shape="rectangular"
+            data-theme="outline"
+            data-text="signin_with" 
+            data-size="medium" 
+            data-logo_alignment="left">
           </div>
         </div>
       </div>
+
       <div class="auth-footer row">
         <!-- <div class=""> -->
         <div class="col my-1">
@@ -135,5 +154,3 @@
         <!-- </div> -->
       </div>
     </div>
-  </div>
-</div>
