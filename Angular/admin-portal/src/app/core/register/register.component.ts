@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { MessageService } from 'primeng/api';
@@ -8,7 +8,8 @@ import { MessageModule } from 'primeng/message';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 
-
+import { coInDomainValidator } from '../shared/co-in-email.validator';
+import { emailDomainValidator,  } from '../shared/email.validator';
 
 @Component({
   selector: 'app-register',
@@ -35,18 +36,21 @@ export class RegisterComponent implements OnInit {
       name: 'Facebook'
     }
   ];
+
   constructor(
     private authService: AuthenticationService,
     private messageService: MessageService,
     private router: Router
   ) { }
+
+  
   SignUpForm!: FormGroup;
   ngOnInit(): void {
     this.SignUpForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       lastName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       company: new FormControl('', [Validators.required]),
-      emailAddress: new FormControl('', [Validators.required, Validators.email]),
+      emailAddress: new FormControl('', [Validators.required, Validators.email,emailDomainValidator('gmail.com'),coInDomainValidator()]),
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
     });
   }

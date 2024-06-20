@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../Interface/auth';
 import { TOAST_CONFIG } from 'ngx-toastr';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,17 @@ export class AuthenticationService {
   }
   loginuser(email: string): Observable<User[]> {
     return this.http.get<User[]>(`${environment.api_url}/users?email=${email}`);
+  }
+  public emailDomainValidator(domain: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        // if control is empty, return no error
+        return null;
+      }
+      const email = control.value;
+      const domainPattern = new RegExp(`@${domain}$`);
+      const valid = domainPattern.test(email);
+      return valid ? null : { emailDomain: { value: control.value, domain } };
+    };
   }
 }

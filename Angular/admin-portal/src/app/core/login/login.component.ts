@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
+import { emailDomainValidator } from '../shared/email.validator';
 
 @Component({
   selector: 'app-login',
@@ -97,7 +98,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email,emailDomainValidator('gmail.com')]),
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
       keepSignedIn: new FormControl(false)
     });
