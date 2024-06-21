@@ -1,14 +1,15 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function emailDomainValidator(domain: string): ValidatorFn {
+export function multiDomainValidator(allowedDomains: string[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) {
-      // if control is empty, return no error
-      return null;
+      return null; // return if the control is empty
     }
+    
     const email = control.value;
-    const domainPattern = new RegExp(`@${domain}$`);
-    const valid = domainPattern.test(email);
-    return valid ? null : { emailDomain: { value: control.value, domain } };
+    const domain = email.substring(email.lastIndexOf('@') + 1);
+    const valid = allowedDomains.some(allowedDomain => domain === allowedDomain);
+    
+    return valid ? null : { multiDomain: true };
   };
 }

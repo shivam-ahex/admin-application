@@ -4,29 +4,22 @@ import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { HttpResponse } from '@angular/common/http';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { MessageService } from 'primeng/api';
+
+import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
-import { MessageModule } from 'primeng/message';
-import { emailDomainValidator } from '../shared/email.validator';
+
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, ToastrModule, CommonModule, ToastModule, MessageModule],
-  // providers: [
-  //   {provide: ToastrService, useClass: ToastrService}
-  // ],
-  providers: [MessageService],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, ToastrModule,CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LoginComponent implements OnInit {
-  userInfo: any;
-  private toastr: any;
   constructor(private authenticationService: AuthenticationService,
-    private messageService: MessageService
+    private toastr: ToastrService
   ) { }
 
   SignInOptions: { image: string, name: string }[] = [
@@ -80,25 +73,61 @@ export class LoginComponent implements OnInit {
 
 
     const { email, password } = this.loginForm.value;
-    this.authenticationService.loginuser(email as string).subscribe(
-      response => {
+    this.authenticationService.loginuser(email as string).subscribe({
+      next: response => {
         if (response.length > 0 && response[0].password === password) {
           localStorage.setItem('email', email as string)
-          alert("Sucess!!")
-        } else {
-          alert("Wrong Password!!")
+         this.toastr.success('Login sucessfully','Success');
+          
+        }else{
+          this.toastr.error('Wrong Creditentials','Error');
+         
         }
+        
+        
       },
-      error => {
-        alert("Something went wrong!!")
+      error: error => {
+        this.toastr.error('Something went wrong!!','Error');
+        
       }
+    }
     )
 
+
+    // const { email, password } = this.loginForm.value;
+    // this.authenticationService.loginuser(email as string).subscribe({
+    //   next: (response: HttpResponse<User[]>) => {
+    //     console.log('Response:', response); // Logging the whole response
+    //     const users = response.body || [];
+    //     console.log('Users:', users); // Logging the users array
+    //     if (users.length > 0) {
+    //       console.log('User password from response:', users[0].password); // Logging the password from the response
+    //       if (users[0].password === password) {
+    //         localStorage.setItem('email', email as string);
+    //         alert("Success!!");
+    //         const token = response.headers.get('token');
+    //         if (token) {
+    //           localStorage.setItem('token', token as string);
+    //         } else {
+    //           localStorage.removeItem('token');
+    //         }
+    //       } else {
+    //         alert("Invalid credentials!!");
+    //       }
+    //     } else {
+    //       alert("No user found with the provided email.");
+    //     }
+    //   },
+    //   error: error => {
+    //     console.error('Error:', error); // Logging the error
+    //     alert("Something went wrong!!");
+    //   }
+    // });
   }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email,emailDomainValidator('gmail.com')]),
+      email: new FormControl('', [Validators.required, Validators.email,multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
       keepSignedIn: new FormControl(false)
     });

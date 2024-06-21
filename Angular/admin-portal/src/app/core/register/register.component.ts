@@ -2,20 +2,17 @@ import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
-import { MessageService } from 'primeng/api';
 import { User } from '../Interface/auth';
-import { MessageModule } from 'primeng/message';
 import { CommonModule } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
 
-import { coInDomainValidator } from '../shared/co-in-email.validator';
-import { emailDomainValidator,  } from '../shared/email.validator';
+import { multiDomainValidator } from '../shared/email.validator';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, MessageModule, CommonModule, ToastModule],
-  providers: [MessageService],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule,ToastrModule ],
+  providers: [AuthenticationService,Router],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -39,8 +36,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   
@@ -50,22 +47,24 @@ export class RegisterComponent implements OnInit {
       firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       lastName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       company: new FormControl('', [Validators.required]),
-      emailAddress: new FormControl('', [Validators.required, Validators.email,emailDomainValidator('gmail.com'),coInDomainValidator()]),
+      emailAddress:  new FormControl('', [
+        Validators.required,
+        Validators.email,
+        multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
     });
   }
   public submit():void {
     const postData = { ...this.SignUpForm.value };
-    delete postData.company;
-    this.authService.registerUser(postData as User).subscribe(
-      response => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registered successfully' });
+    this.authService.registerUser(postData as User).subscribe({
+      next: response => {
         this.router.navigate(['/login']);
-
+        this.toastr.success('Register sucessfully','Success');
       },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong' });
+      error: error => {
+        this.toastr.error('Something went wrong!!','Error');
       }
+    }
     )
   }
 }

@@ -20,22 +20,9 @@
                             {
                             <div class="text-danger">Email is required</div>
                             }
-                            <div *ngIf="loginForm.get('email')?.hasError('emailDomain') "class="text-danger">
-                                Invalid email format.
-                              </div>
-                             <!-- @if(!loginForm.get('email')?.hasError('gmailDomain')){
-                                @if(loginForm.get('email')?.hasError('coInDomain')){
-                                    <div>Valid!</div>
-                                }
-                               
-                             } @else if (loginForm.get('email')?.hasError('gmailDomain')){
-                                @if(!loginForm.get('email')?.hasError('coInDomain')){
-                                    <div>Valid!</div>
-                                }
-                             }
-                             @else{
-                                <div>Invalid Email</div>
-                             } -->
+                            <div *ngIf="loginForm.get('email')?.hasError('multiDomain')">
+                                <div class="text-danger">Invalid email domain. Use 'ahex.co.in' or 'gmail.com'</div>
+                            </div>
                         }
                         </div>
                         <div class="form-group mb-3">
@@ -64,7 +51,6 @@
                             <h5 class="text-secondary f-w-400"><a href="javascript:">Forgot Password?</a></h5>
                         </div>
                         <div class="d-grid mt-4">
-                            <p-toast></p-toast>
                             <button type="button" class="btn btn-primary" (click)="login()" [disabled]="loginForm.invalid">Login</button>
                         </div>
                     </form>

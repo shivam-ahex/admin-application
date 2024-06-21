@@ -69,8 +69,8 @@
               <div class="text-danger">Email Id is required</div>
               }
               
-              <div *ngIf="SignUpForm.get('emailAddress')?.hasError('emailDomain') "class="text-danger">
-                Invalid email format.
+              <div *ngIf="SignUpForm.get('emailAddress')?.hasError('multiDomain')">
+                <div class="text-danger">Invalid email domain. Use 'ahex.co.in' or 'gmail.com'</div>
               </div>
               @if (SignUpForm.get('emailAddress')?.hasError('email') && SignUpForm.get('emailAddress')?.touched)
               {
