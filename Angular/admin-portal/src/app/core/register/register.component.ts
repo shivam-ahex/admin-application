@@ -1,5 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
@@ -8,6 +7,7 @@ import { CommonModule } from '@angular/common';
 
 import { multiDomainValidator } from '../shared/email.validator';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { AuthGoogleService } from '../services/Googleservices/auth-google.service';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,8 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RegisterComponent implements OnInit {
-
+  SignUpForm!: FormGroup;
+  private oAuthservice= inject(AuthGoogleService);
   SignUpOptions: { image: string, name: string }[] = [
     {
       image: 'assets/images/authentication/google.svg',
@@ -45,7 +46,7 @@ export class RegisterComponent implements OnInit {
   
 
   
-  SignUpForm!: FormGroup;
+  
   ngOnInit(): void {
     this.SignUpForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
@@ -70,5 +71,8 @@ export class RegisterComponent implements OnInit {
       }
     }
     )
+  }
+  public signInWithGoogle():void{
+    this.oAuthservice.login();
   }
 }

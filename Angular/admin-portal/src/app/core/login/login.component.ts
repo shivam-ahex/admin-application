@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
@@ -7,6 +7,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
+import { AuthGoogleService } from '../services/Googleservices/auth-google.service';
 
 
 
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  private oAuthservice= inject(AuthGoogleService);
   constructor(private authenticationService: AuthenticationService,
     private toastr: ToastrService
   ) { }
@@ -131,5 +133,8 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
       keepSignedIn: new FormControl(false)
     });
+  }
+  public signInWithGoogle():void{
+    this.oAuthservice.login();
   }
 }
