@@ -1,5 +1,6 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interface/auth';
@@ -34,11 +35,14 @@ export class RegisterComponent implements OnInit {
     }
   ];
 
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private toastr: ToastrService
   ) { }
+
+  
 
   
   SignUpForm!: FormGroup;
