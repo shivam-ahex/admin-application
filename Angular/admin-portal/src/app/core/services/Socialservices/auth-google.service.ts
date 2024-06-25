@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 
 @Injectable({
@@ -7,7 +6,6 @@ import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 })
 export class AuthGoogleService {
   private oAuthService= inject(OAuthService);
-  private router=inject(Router);
   constructor() { 
     this.initConfiguration();
   }

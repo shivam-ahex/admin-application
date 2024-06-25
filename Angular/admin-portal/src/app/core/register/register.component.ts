@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 import { multiDomainValidator } from '../shared/email.validator';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { AuthGoogleService } from '../services/Googleservices/auth-google.service';
+import { AuthGoogleService } from '../services/Socialservices/auth-google.service';
 
 @Component({
   selector: 'app-register',
@@ -74,5 +74,8 @@ export class RegisterComponent implements OnInit {
   }
   public signInWithGoogle():void{
     this.oAuthservice.login();
+  }
+  public signInWithFb(): void{
+
   }
 }

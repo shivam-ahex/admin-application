@@ -2,12 +2,11 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
-import { HttpResponse } from '@angular/common/http';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
-import { AuthGoogleService } from '../services/Googleservices/auth-google.service';
+import { AuthGoogleService } from '../services/Socialservices/auth-google.service';
 
 
 
