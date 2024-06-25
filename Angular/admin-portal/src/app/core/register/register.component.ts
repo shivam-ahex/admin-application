@@ -13,14 +13,19 @@ import { AuthGoogleService } from '../services/Socialservices/auth-google.servic
   selector: 'app-register',
   standalone: true,
   imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule,ToastrModule ],
-  providers: [AuthenticationService,Router],
+  providers: [AuthenticationService,Router ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RegisterComponent implements OnInit {
+
   SignUpForm!: FormGroup;
+  
+  isLoggedin?: boolean = undefined;
+
   private oAuthservice= inject(AuthGoogleService);
+
   SignUpOptions: { image: string, name: string }[] = [
     {
       image: 'assets/images/authentication/google.svg',
@@ -40,7 +45,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    // private ssoauthService: SocialAuthService
   ) { }
 
   
@@ -58,6 +64,7 @@ export class RegisterComponent implements OnInit {
         multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
     });
+    
   }
   public submit():void {
     const postData = { ...this.SignUpForm.value };
@@ -75,7 +82,14 @@ export class RegisterComponent implements OnInit {
   public signInWithGoogle():void{
     this.oAuthservice.login();
   }
-  public signInWithFb(): void{
 
-  }
+  // Sign in with fb
+  // public signInWithFb(): void{
+    
+  //   this.ssoauthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  // }
+  // refreshToken(): void {
+  //   this.ssoauthService.refreshAuthToken(FacebookLoginProvider.PROVIDER_ID);
+  // }
+ 
 }
