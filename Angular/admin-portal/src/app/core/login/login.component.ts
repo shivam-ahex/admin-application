@@ -3,7 +3,6 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-
 import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
 import { AuthGoogleService } from '../services/Socialservices/auth-google.service';
@@ -84,12 +83,9 @@ export class LoginComponent implements OnInit {
           this.toastr.error('Wrong Creditentials','Error');
          
         }
-        
-        
       },
       error: error => {
         this.toastr.error('Something went wrong!!','Error');
-        
       }
     }
     )

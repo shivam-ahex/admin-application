@@ -6,6 +6,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
+
 // import { FacebookLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 export const appConfig: ApplicationConfig = {
   providers: [ provideHttpClient(withFetch()),

@@ -1,10 +1,9 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {  FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interface/auth';
 import { CommonModule } from '@angular/common';
-
 import { multiDomainValidator } from '../shared/email.validator';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthGoogleService } from '../services/Socialservices/auth-google.service';
@@ -21,9 +20,7 @@ import { AuthGoogleService } from '../services/Socialservices/auth-google.servic
 export class RegisterComponent implements OnInit {
 
   SignUpForm!: FormGroup;
-  
   isLoggedin?: boolean = undefined;
-
   private oAuthservice= inject(AuthGoogleService);
 
   SignUpOptions: { image: string, name: string }[] = [
@@ -40,19 +37,11 @@ export class RegisterComponent implements OnInit {
       name: 'Facebook'
     }
   ];
-
-
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private toastr: ToastrService,
-    // private ssoauthService: SocialAuthService
   ) { }
-
-  
-
-  
-  
   ngOnInit(): void {
     this.SignUpForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
@@ -91,5 +80,6 @@ export class RegisterComponent implements OnInit {
   // refreshToken(): void {
   //   this.ssoauthService.refreshAuthToken(FacebookLoginProvider.PROVIDER_ID);
   // }
+
  
 }
