@@ -23,6 +23,34 @@
       "company": "Ahex1",
       "emailAddress": "test5@gmail.com",
       "password": "Akash@1234"
+    },
+    {
+      "id": "ac38",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "company": "Ahex1",
+      "emailAddress": "test7@gmail.com",
+      "password": "Test@1234"
+    },
+    {
+      "id": "a146",
+      "email": "test7@gmail.com",
+      "password": "Test@1234",
+      "keepSignedIn": false
+    },
+    {
+      "id": "6af3",
+      "firstName": "Akash",
+      "lastName": "Arupali",
+      "company": "Test",
+      "emailAddress": "test8@gmail.com",
+      "password": "Test@1234"
+    },
+    {
+      "id": "b541",
+      "email": "test8@gmail.com",
+      "password": "Test@1234",
+      "keepSignedIn": false
     }
   ]
 }

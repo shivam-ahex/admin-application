@@ -48,7 +48,8 @@
                                     type="checkbox" id="customCheckc1" checked="" />
                                 <label class="form-check-label text-muted" for="customCheckc1">Keep me sign in</label>
                             </div>
-                            <h5 class="text-secondary f-w-400"><a href="javascript:">Forgot Password?</a></h5>
+                            <h5 class="text-secondary f-w-400">
+                                <a [routerLink]="['/forget-password']" class="link-primary">Forgot Password?</a></h5>
                         </div>
                         <div class="d-grid mt-4">
                             <button type="button" class="btn btn-primary" (click)="login()" [disabled]="loginForm.invalid">Login</button>
@@ -58,7 +59,7 @@
                         <span>Login with</span>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col">
                           <div class="d-grid">
                             <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted" (click)="signInWithGoogle()">
                               <img src="assets/images/authentication/google.svg" alt="google img" />

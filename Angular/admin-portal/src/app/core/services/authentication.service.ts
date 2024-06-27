@@ -11,9 +11,7 @@ export class AuthenticationService {
  
   constructor(private http: HttpClient) { }
 
-  // public login(data: { email: string, password: string }): Observable<{ email: string, password: string }> {
-  //   return this.http.get<{ email: string, password: string }>(`${environment.api_url}/users?email=${data.email}`,);
-  // }
+  
   public registerUser(user: User): Observable<HttpResponse<User>> {
     return this.http.post<User>(`${environment.api_url}/users`, user, { observe: 'response' }).pipe(
       tap((response: HttpResponse<User>) => {
@@ -45,8 +43,8 @@ export class AuthenticationService {
     return throwError(() => new Error(errorMessage));;
   }
 
-  public loginuser(email: string): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.api_url}/users?email=${email}`);
+  public loginuser(credentials: any): Observable<HttpResponse<User[]>> {
+    return this.http.post<User[]>(`${environment.api_url}/users`, credentials, { observe: 'response' });
   }
 
   

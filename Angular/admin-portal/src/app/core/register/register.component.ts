@@ -56,13 +56,12 @@ export class RegisterComponent implements OnInit {
     
   }
   public submit():void {
-    const postData = { ...this.SignUpForm.value };
-    this.authService.registerUser(postData as User).subscribe({
-      next: response => {
+    this.authService.registerUser(this.SignUpForm.value).subscribe({
+      next: ()=> {
         this.router.navigate(['/login']);
         this.toastr.success('Register sucessfully','Success');
       },
-      error: error => {
+      error: () => {
         this.toastr.error('Something went wrong!!','Error');
       }
     }

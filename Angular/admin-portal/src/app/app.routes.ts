@@ -18,6 +18,14 @@ export const routes: Routes = [
         loadComponent: () => import('./core/dashboard/dashboard.component').then(m => m.DashboardComponent)
     },
     {
+        path: 'forget-password',
+        loadComponent: () => import('./core/forget-password/forget-password.component').then(m => m.ForgetPasswordComponent)
+    },
+    {
+        path: 'reset-password',
+        loadComponent: ()=>import("./core/reset-password/reset-password.component").then(m=>m.ResetPasswordComponent)
+    },
+    {
         path:'**',
         redirectTo:'login',
         pathMatch:'full'
