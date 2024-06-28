@@ -6,8 +6,9 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
 import { AuthGoogleService } from '../services/Socialservices/auth-google.service';
-import { HttpResponse } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpResponse } from '@angular/common/http';
 import { User } from '../Interface/auth';
+import { AuthInterceptor } from '../services/auth.interceptor';
 
 
 
@@ -15,6 +16,7 @@ import { User } from '../Interface/auth';
   selector: 'app-login',
   standalone: true,
   imports: [RouterModule, ReactiveFormsModule, FormsModule, ToastrModule, CommonModule],
+  providers:[{provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor}],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -48,18 +50,22 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authenticationService.loginuser(this.loginForm.value).subscribe({
         next: (response: HttpResponse<any>) => {
-          this.toastr.success(response.body.message, 'Success');
-          if (response.body.user) {
-            console.log(response.body.user);
-            this.userInfo = response.body.user as User;
-            alert("Sucess");
-          }
-          else {
-            this.userInfo = null;
-          }
+          
+          // if (response.body) {
+          //   console.log(response.body);
+          //   this.userInfo = response.body.user as User;
+          //   this.toastr.success(response.body.message, 'Success');
+          // }
+          // else {
+          //   this.userInfo = null;
+          // }
+          console.log(response);
+          
+
           if (response.headers.get('token')) {
             let token = response.headers.get('token') as string;
             localStorage.setItem('token', token);
+            this.toastr.success(response.body.message, 'Success');
           }
           else {
             localStorage.removeItem('token');
@@ -77,9 +83,6 @@ export class LoginComponent implements OnInit {
     else {
       this.toastr.error('Please enter valid email and password', 'Error');
     }
-
-
-
   }
 
   ngOnInit(): void {

@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ForgetPasswordComponent implements OnInit {
   ForgetForm!: FormGroup
+
+  constructor(){}
   ngOnInit(): void {
     this.ForgetForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email, multiDomainValidator(['gmail.com', 'ahex.co.in'])])
