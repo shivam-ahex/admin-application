@@ -3,5 +3,6 @@ export interface User{
     lastName:string,
     company:string,
     emailAddress:string,
-    password:string  
+    password:string,
+    token: string
 }

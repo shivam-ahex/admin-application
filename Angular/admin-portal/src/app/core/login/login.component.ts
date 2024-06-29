@@ -16,7 +16,7 @@ import { AuthInterceptor } from '../services/auth.interceptor';
   selector: 'app-login',
   standalone: true,
   imports: [RouterModule, ReactiveFormsModule, FormsModule, ToastrModule, CommonModule],
-  providers:[{provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor }],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -49,39 +49,53 @@ export class LoginComponent implements OnInit {
 
     if (this.loginForm.valid) {
       this.authenticationService.loginuser(this.loginForm.value).subscribe({
-        next: (response: HttpResponse<any>) => {
-          
-          // if (response.body) {
-          //   console.log(response.body);
-          //   this.userInfo = response.body.user as User;
-          //   this.toastr.success(response.body.message, 'Success');
-          // }
-          // else {
-          //   this.userInfo = null;
-          // }
-          console.log(response);
-          
-
+        next: (response) => {
           if (response.headers.get('token')) {
             let token = response.headers.get('token') as string;
             localStorage.setItem('token', token);
-            this.toastr.success(response.body.message, 'Success');
-          }
-          else {
-            localStorage.removeItem('token');
+            this.toastr.success("Successfully login", 'Success');
           }
         },
-        error: (error: any) => {
-          if (error.error.message) {
-            console.log(error.error.message)
-            alert("Error");
-            this.toastr.error(error.error.message, 'Error');
-          }
+        error: (error) => {
+          this.toastr.error(error, 'Error');
         }
-      });
-    }
-    else {
-      this.toastr.error('Please enter valid email and password', 'Error');
+      }
+      );
+      // this.authenticationService.loginuser(this.loginForm.value)
+      //   .subscribe({
+      //     next: (response: HttpResponse<any>) => {
+
+      //       if (response.body) {
+      //         console.log(response.body);
+      //         this.userInfo = response.body.user as User;
+      //         this.toastr.success(response.body.message, 'Success');
+      //       }
+      //       else {
+      //         this.userInfo = null;
+      //       }
+      //       console.log(response);
+
+
+      //       if (response.headers.get('token')) {
+      //         let token = response.headers.get('token') as string;
+      //         localStorage.setItem('token', token);
+      //         this.toastr.success(response.body.message, 'Success');
+      //       }
+      //       else {
+      //         localStorage.removeItem('token');
+      //       }
+      //     },
+      //     error: (error: any) => {
+      //       if (error.error.message) {
+      //         console.log(error.error.message)
+      //         alert("Error");
+      //         this.toastr.error(error.error.message, 'Error');
+      //       }
+      //     }
+      //   });
+      // }
+      // else {
+      //   this.toastr.error('Please enter valid email and password', 'Error');
     }
   }
 
