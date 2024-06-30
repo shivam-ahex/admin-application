@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable, throwError } from 'rxjs';
@@ -59,22 +59,9 @@ export class AuthenticationService {
       
   // }
 
-  public loginuser(email: string): Observable<HttpResponse<User>> {
-    
-    return this.http.get<User>(`${environment.api_url}/users`, { observe: 'response' }).pipe(
-      map(response => {
-        const user = response.body;
-        if (user && user.emailAddress === email) {
-          return response;
-        } else {
-          throw new Error('User not found or token invalid');
-        }
-      }),
-      catchError(error => {
-        console.error('Login error:', error);
-        this.toastr.error(error, 'Error')
-        return throwError(error);
-      })
-    );
+  public loginuser(email:string): Observable<HttpResponse<User>> {
+    const params = new HttpParams().set('email', email);
+    return this.http.get<User>(`${environment.api_url}/users`,{ params, observe: 'response' })
+   
   }
 }

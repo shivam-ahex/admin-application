@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authenticationService.loginuser(this.loginForm.value).subscribe({
         next: (response) => {
+          console.log(response)
           if (response.headers.get('token')) {
             let token = response.headers.get('token') as string;
             localStorage.setItem('token', token);
