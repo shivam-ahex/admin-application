@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
+import { AuthenticationService } from '../services/authentication.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-forget-password',
@@ -13,15 +15,37 @@ import { CommonModule } from '@angular/common';
 })
 export class ForgetPasswordComponent implements OnInit {
   ForgetForm!: FormGroup
+  
 
-  constructor(){}
+  constructor(
+    private authService:AuthenticationService,
+    private route: Router,
+  ){}
   ngOnInit(): void {
     this.ForgetForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email, multiDomainValidator(['gmail.com', 'ahex.co.in'])])
+      emailAddress:  new FormControl('', [
+        Validators.required,
+        Validators.email,
+        multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
     })
   }
-  public forgetPassword(): void {
-
+  public onSubmit():void {
+   
+    if(this.ForgetForm.valid){
+      this.authService.forgetPassword(this.ForgetForm.value).subscribe({
+        next: (response) => {
+          console.log('Password reset email sent', response);
+          this.route.navigate(['/reset-password'])
+        },
+        error: (error) => {
+          console.error('Error sending password reset email', error);
+        },
+        complete: () => {
+          console.log('Password reset request complete');
+        }
+      }
+      )
+    }
 
   }
 

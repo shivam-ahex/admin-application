@@ -62,6 +62,9 @@ export class AuthenticationService {
   public loginuser(email:string): Observable<HttpResponse<User>> {
     const params = new HttpParams().set('email', email);
     return this.http.get<User>(`${environment.api_url}/users`,{ params, observe: 'response' })
-   
+  }
+
+  public forgetPassword(data:{email:string}):Observable<any>{
+    return this.http.post(`${environment.api_url}/users`,data,{observe:'response'});
   }
 }
