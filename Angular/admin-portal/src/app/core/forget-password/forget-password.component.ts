@@ -15,23 +15,24 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class ForgetPasswordComponent implements OnInit {
   ForgetForm!: FormGroup
-  
+
 
   constructor(
-    private authService:AuthenticationService,
+    private authService: AuthenticationService,
     private route: Router,
-  ){}
+    private formBuilder: FormBuilder
+  ) { }
   ngOnInit(): void {
-    this.ForgetForm = new FormGroup({
-      emailAddress:  new FormControl('', [
+    this.ForgetForm = this.formBuilder.group({
+      email: new FormControl('', [
         Validators.required,
         Validators.email,
         multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
     })
   }
-  public onSubmit():void {
-   
-    if(this.ForgetForm.valid){
+  public onSubmit(): void {
+
+    if (this.ForgetForm.valid) {
       this.authService.forgetPassword(this.ForgetForm.value).subscribe({
         next: (response) => {
           console.log('Password reset email sent', response);

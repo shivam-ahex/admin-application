@@ -1,19 +1,15 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../Interface/auth';
-import { catchError, map, tap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Token } from '@angular/compiler';
-import { Value } from '@angular/fire/compat/remote-config';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
   constructor(private http: HttpClient,
-    private toastr: ToastrService
   ) { }
 
 
@@ -27,44 +23,20 @@ export class AuthenticationService {
     return localStorage.getItem('token');
   }
 
-  private handleError(error: any) {
-    let errorMessage = 'Unknown error occurred';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));;
+  public loginuser(data: { email: string, password: string }): Observable<HttpResponse<any>> {
+    return this.http.post<HttpResponse<any>>(`${environment.api_url}/users`, data)
   }
 
-  // public loginuser(credentials: {email:'string',token:'string'}): Observable<HttpResponse<any>> {
-  //   return this.http.get<any>(`${environment.api_url}?emailAddress=${credentials.email}/users`)
-  // }
-
-  // public loginuser(email: string): Observable<HttpResponse<User> | undefined> {
-
-  //   return this.http.get<User>(`${environment.api_url}/users`, { observe: 'response' }).pipe(
-  //     map(response => {
-  //       console.log('Response body:', response.body); // Log the response body
-  //       const user = response.body?.find(user => {
-  //         console.log('Checking user:', user); // Log each user being checked
-  //         return user.emailAddress === email && user.token === "eyopgtcxxvb_gfgsfgfgdgvbbbbxgxfgsdfgfrgsfgsfertertrtdvxbcvhcvbcvbnbnbncvvbxfg";
-  //       });
-  //       return user;
-  //     })
-  //   )
-      
-  // }
-
-  public loginuser(email:string): Observable<HttpResponse<User>> {
-    const params = new HttpParams().set('email', email);
-    return this.http.get<User>(`${environment.api_url}/users`,{ params, observe: 'response' })
+  public forgetPassword(data: { email: string }): Observable<any> {
+    return this.http.post(`${environment.api_url}/users`, data);
   }
-
-  public forgetPassword(data:{email:string}):Observable<any>{
-    return this.http.post(`${environment.api_url}/users`,data,{observe:'response'});
+  // Backend Implementation
+  // Receive a request with the user's email.
+  // Generate a password reset token.
+  // Send an email to the user with a reset link containing the token.
+  // Verify the token when the user clicks the link.
+  // Allow the user to reset their password.
+  public resetPassword(data: {newPassword: string; }): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}/users`, data)
   }
-}
+} 

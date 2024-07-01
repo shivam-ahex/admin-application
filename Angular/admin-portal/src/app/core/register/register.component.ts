@@ -57,7 +57,8 @@ export class RegisterComponent implements OnInit {
   }
   public submit():void {
     this.authService.registerUser(this.SignUpForm.value).subscribe({
-      next: ()=> {
+      next: (response)=> {
+        localStorage.setItem('token',response.token)
         this.router.navigate(['/login']);
         this.toastr.success('Register sucessfully','Success');
       },

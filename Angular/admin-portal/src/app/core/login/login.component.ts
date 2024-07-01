@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { multiDomainValidator } from '../shared/email.validator';
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
   private oAuthservice = inject(AuthGoogleService);
 
   constructor(private authenticationService: AuthenticationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route:Router
   ) { }
 
   SignInOptions: { image: string, name: string }[] = [
@@ -46,15 +47,13 @@ export class LoginComponent implements OnInit {
 
   userInfo!: User | null;
   public login(): void {
-
     if (this.loginForm.valid) {
       this.authenticationService.loginuser(this.loginForm.value).subscribe({
-        next: (response) => {
+        next: (response:HttpResponse<any>) => {
           console.log(response)
-          if (response.headers.get('token')) {
-            let token = response.headers.get('token') as string;
-            localStorage.setItem('token', token);
-            this.toastr.success("Successfully login", 'Success');
+          if (response) {
+            localStorage.setItem('token', response.body.token);
+            this.toastr.success(response.body.message, 'Success');
           }
         },
         error: (error) => {
@@ -62,41 +61,6 @@ export class LoginComponent implements OnInit {
         }
       }
       );
-      // this.authenticationService.loginuser(this.loginForm.value)
-      //   .subscribe({
-      //     next: (response: HttpResponse<any>) => {
-
-      //       if (response.body) {
-      //         console.log(response.body);
-      //         this.userInfo = response.body.user as User;
-      //         this.toastr.success(response.body.message, 'Success');
-      //       }
-      //       else {
-      //         this.userInfo = null;
-      //       }
-      //       console.log(response);
-
-
-      //       if (response.headers.get('token')) {
-      //         let token = response.headers.get('token') as string;
-      //         localStorage.setItem('token', token);
-      //         this.toastr.success(response.body.message, 'Success');
-      //       }
-      //       else {
-      //         localStorage.removeItem('token');
-      //       }
-      //     },
-      //     error: (error: any) => {
-      //       if (error.error.message) {
-      //         console.log(error.error.message)
-      //         alert("Error");
-      //         this.toastr.error(error.error.message, 'Error');
-      //       }
-      //     }
-      //   });
-      // }
-      // else {
-      //   this.toastr.error('Please enter valid email and password', 'Error');
     }
   }
 
