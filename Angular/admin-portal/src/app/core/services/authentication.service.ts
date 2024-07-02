@@ -23,6 +23,10 @@ export class AuthenticationService {
     return localStorage.getItem('token');
   }
 
+  public getData():Observable<any>{
+    return this.http.get<any>(`${environment.api_url}/users`)
+  }
+
   public loginuser(data: { email: string, password: string }): Observable<HttpResponse<any>> {
     return this.http.post<HttpResponse<any>>(`${environment.api_url}/users`, data)
   }

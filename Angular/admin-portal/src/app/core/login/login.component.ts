@@ -21,13 +21,29 @@ import { AuthInterceptor } from '../services/auth.interceptor';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-
+  userInfo: any
   private oAuthservice = inject(AuthGoogleService);
 
   constructor(private authenticationService: AuthenticationService,
     private toastr: ToastrService,
     private route:Router
   ) { }
+
+  
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email, multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
+      password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
+      keepSignedIn: new FormControl(false)
+    });
+
+    this.authenticationService.getData().subscribe(
+      data=>{
+        this.userInfo=data
+      }
+    )
+    
+  }
 
   SignInOptions: { image: string, name: string }[] = [
     {
@@ -45,15 +61,25 @@ export class LoginComponent implements OnInit {
   ];
   loginForm!: FormGroup;
 
-  userInfo!: User | null;
+  
   public login(): void {
     if (this.loginForm.valid) {
+      let loginData = this.loginForm.value;
+      let user = this.userInfo.filter((u: any) => u.emailAddress === loginData.email);
+      localStorage.setItem('user', JSON.stringify(user));
+      console.log(user);
+      
+      console.log(user.emailAddress,user.password);
+      
+      if(user[0].emailAddress === loginData.email && user[0].password===loginData.password){
       this.authenticationService.loginuser(this.loginForm.value).subscribe({
-        next: (response:HttpResponse<any>) => {
-          console.log(response)
-          if (response) {
-            localStorage.setItem('token', response.body.token);
-            this.toastr.success(response.body.message, 'Success');
+        next: (response:any) => {
+          if (response) {           
+            response.token = 'eyjkkgsdg9g9gg0dgsdg09gsd0g0llljkokfklofifll';
+            response.message = 'Successfull login...!';
+            localStorage.setItem('token', response.token);
+            this.toastr.success(response.message, 'Success');
+            this.route.navigate(['/user-verification'])
           }
         },
         error: (error) => {
@@ -62,16 +88,14 @@ export class LoginComponent implements OnInit {
       }
       );
     }
+    
   }
-
-  ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email, multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
-      password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
-      keepSignedIn: new FormControl(false)
-    });
-  }
-  public signInWithGoogle(): void {
-    this.oAuthservice.login();
-  }
+  
 }
+public signInWithGoogle(): void {
+  this.oAuthservice.login();
+}
+}
+ 
+  
+
