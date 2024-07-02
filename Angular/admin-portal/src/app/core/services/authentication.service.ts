@@ -30,13 +30,16 @@ export class AuthenticationService {
   public forgetPassword(data: { email: string }): Observable<any> {
     return this.http.post(`${environment.api_url}/users`, data);
   }
-  // Backend Implementation
-  // Receive a request with the user's email.
-  // Generate a password reset token.
-  // Send an email to the user with a reset link containing the token.
-  // Verify the token when the user clicks the link.
-  // Allow the user to reset their password.
-  public resetPassword(data: {newPassword: string; }): Observable<any> {
+ 
+  public resetPassword(data: {newPassword: string }): Observable<any> {
     return this.http.post<any>(`${environment.api_url}/users`, data)
+  }
+
+  public resetPhnNumber(data:{phoneNumber: number}): Observable<any>{
+    return this.http.post<any>(`${environment.api_url}/users`,data)
+  }
+
+  public otpVerify(data:{otp:string}):Observable<any>{
+    return this.http.post<any>(`${environment.api_url}/users`,data)
   }
 } 

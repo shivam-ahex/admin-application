@@ -28,6 +28,14 @@ export const routes: Routes = [
         loadComponent: ()=>import("./core/reset-password/reset-password.component").then(m=>m.ResetPasswordComponent)
     },
     {
+        path: 'reset-phonenumber',
+        loadComponent: ()=>import("./core/reset-phone-number/reset-phone-number.component").then(m=>m.ResetPhoneNumberComponent)
+    },
+    {
+        path: 'otp',
+        loadComponent: ()=>import("./core/otp/otp.component").then(m=>m.OtpComponent)
+    },
+    {
         path:'**',
         redirectTo:'login',
         pathMatch:'full'

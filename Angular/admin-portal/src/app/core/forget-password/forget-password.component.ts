@@ -4,12 +4,12 @@ import { Router, RouterModule } from '@angular/router';
 import { multiDomainValidator } from '../shared/email.validator';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../services/authentication.service';
-import { HttpResponse } from '@angular/common/http';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forget-password',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule,ToastrModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss'
 })
@@ -20,7 +20,8 @@ export class ForgetPasswordComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private route: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr:ToastrService
   ) { }
   ngOnInit(): void {
     this.ForgetForm = this.formBuilder.group({
@@ -35,14 +36,12 @@ export class ForgetPasswordComponent implements OnInit {
     if (this.ForgetForm.valid) {
       this.authService.forgetPassword(this.ForgetForm.value).subscribe({
         next: (response) => {
-          console.log('Password reset email sent', response);
+          this.toastr.success('Email link sent sucessfully','Success')
+          this.route.navigate(['/otp'])
           this.route.navigate(['/reset-password'])
         },
         error: (error) => {
-          console.error('Error sending password reset email', error);
-        },
-        complete: () => {
-          console.log('Password reset request complete');
+           this.toastr.error(error,'Error')
         }
       }
       )
