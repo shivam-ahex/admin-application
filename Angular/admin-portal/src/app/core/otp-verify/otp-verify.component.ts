@@ -1,36 +1,35 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../services/authentication.service';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-otp',
+  selector: 'app-otp-verify',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,RouterModule,ToastrModule],
-  templateUrl: './otp.component.html',
-  styleUrl: './otp.component.scss'
+  imports: [FormsModule,ReactiveFormsModule,CommonModule,RouterModule],
+  templateUrl: './otp-verify.component.html',
+  styleUrl: './otp-verify.component.scss'
 })
-export class OtpComponent implements OnInit{
-
-  otpForm!:FormGroup
+export class OtpVerifyComponent implements OnInit {
+  otpVerifyForm!:FormGroup
   constructor(private formBuilder:FormBuilder,
     private authService:AuthenticationService,
     private route:Router,
-    private toastr: ToastrService
-  ){}
+    private toastr: ToastrService){}
   ngOnInit(): void {
-    this.otpForm= this.formBuilder.group({
+    this.otpVerifyForm= this.formBuilder.group({
       otp: ['',[Validators.required]]
     }
     )
   }
-  public onSubmit():void {
-    if(this.otpForm.valid){
-      this.authService.otpVerify(this.otpForm.value).subscribe({
+  public onSubmit():void{
+    if(this.otpVerifyForm.valid){
+      this.authService.otpVerify(this.otpVerifyForm.value).subscribe({
         next:(response)=>{
           this.toastr.success(response.message,'Success')
-          this.route.navigate(['/reset-password'])
+          this.route.navigate(['/login'])
         },
         error:(error)=>{
           this.toastr.error(error,'Error')
@@ -39,5 +38,6 @@ export class OtpComponent implements OnInit{
       }
   
     }
-    
-}
+  }
+
+

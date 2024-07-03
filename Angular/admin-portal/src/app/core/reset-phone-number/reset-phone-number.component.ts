@@ -31,7 +31,7 @@ export class ResetPhoneNumberComponent implements OnInit{
       {
         next:(response)=>{
           //handle the Sucess response
-          this.toastr.success('OTP sent to entered mobile number','Success')
+          this.toastr.success(response.message,'Success')
           this.route.navigate(['/otp'])
         },
         error:(error)=>{

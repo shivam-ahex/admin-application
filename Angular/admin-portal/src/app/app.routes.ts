@@ -40,6 +40,10 @@ export const routes: Routes = [
         loadComponent: ()=>import("./core/user-verification/user-verification.component").then(m=>m.UserVerificationComponent)
     },
     {
+        path: 'otp-verify',
+        loadComponent: ()=>import("./core/otp-verify/otp-verify.component").then(m=>m.OtpVerifyComponent)
+    },
+    {
         path:'**',
         redirectTo:'login',
         pathMatch:'full'

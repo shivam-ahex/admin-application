@@ -36,8 +36,7 @@ export class ForgetPasswordComponent implements OnInit {
     if (this.ForgetForm.valid) {
       this.authService.forgetPassword(this.ForgetForm.value).subscribe({
         next: (response) => {
-          this.toastr.success('Email link sent sucessfully','Success')
-          this.route.navigate(['/otp'])
+          this.toastr.success(response.message,'Success')
           this.route.navigate(['/reset-password'])
         },
         error: (error) => {

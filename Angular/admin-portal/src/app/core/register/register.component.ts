@@ -57,13 +57,13 @@ export class RegisterComponent implements OnInit {
   }
   public submit():void {
     this.authService.registerUser(this.SignUpForm.value).subscribe({
-      next: (response)=> {
-        localStorage.setItem('token',response.token)
-        this.router.navigate(['/login']);
-        this.toastr.success('Register sucessfully','Success');
+      next: (response:any)=> {
+        localStorage.setItem('userResponse', JSON.stringify(response));
+        this.router.navigate(['/user-verification']);
+        this.toastr.success(response.message,'Success');
       },
-      error: () => {
-        this.toastr.error('Something went wrong!!','Error');
+      error: (err) => {
+        this.toastr.error(err,'Error');
       }
     }
     )
@@ -72,14 +72,6 @@ export class RegisterComponent implements OnInit {
     this.oAuthservice.login();
   }
 
-  // Sign in with fb
-  // public signInWithFb(): void{
-    
-  //   this.ssoauthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  // }
-  // refreshToken(): void {
-  //   this.ssoauthService.refreshAuthToken(FacebookLoginProvider.PROVIDER_ID);
-  // }
 
  
 }
