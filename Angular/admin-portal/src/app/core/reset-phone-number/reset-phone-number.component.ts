@@ -8,34 +8,36 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-reset-phone-number',
   standalone: true,
-  imports: [RouterModule,ReactiveFormsModule,FormsModule,CommonModule,ToastrModule],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule, ToastrModule],
   templateUrl: './reset-phone-number.component.html',
   styleUrl: './reset-phone-number.component.scss'
 })
-export class ResetPhoneNumberComponent implements OnInit{
+export class ResetPhoneNumberComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private route: Router,
     private toastr: ToastrService
-  ){}
+  ) { }
   phoneNumberForm!: FormGroup
   ngOnInit(): void {
-    this.phoneNumberForm=this.formBuilder.group({
-      phoneNumber:['',[
+    this.phoneNumberForm = this.formBuilder.group({
+      phoneNumber: ['', [
         Validators.required,
         Validators.pattern('^(?=.*?[0-9]).{10}$')]]
     })
   }
-  public onSubmit():void{
+
+  public onSubmit(): void {
     this.authService.resetPhnNumber(this.phoneNumberForm.value).subscribe(
       {
-        next:(response)=>{
+        next: (response) => {
           //handle the Sucess response
-          this.toastr.success(response.message,'Success')
+          console.log(response)
+          this.toastr.success(response.message, 'Success')
           this.route.navigate(['/otp'])
         },
-        error:(error)=>{
-          this.toastr.error(error,'Error')
+        error: (error) => {
+          this.toastr.error(error, 'Error')
         }
       }
     )

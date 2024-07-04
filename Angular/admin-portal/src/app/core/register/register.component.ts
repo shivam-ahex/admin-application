@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
-import {  FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interface/auth';
@@ -11,8 +11,8 @@ import { AuthGoogleService } from '../services/Socialservices/auth-google.servic
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule,ToastrModule ],
-  providers: [AuthenticationService,Router ],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule, ToastrModule],
+  providers: [AuthenticationService, Router],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
 
   SignUpForm!: FormGroup;
   isLoggedin?: boolean = undefined;
-  private oAuthservice= inject(AuthGoogleService);
+  private oAuthservice = inject(AuthGoogleService);
 
   SignUpOptions: { image: string, name: string }[] = [
     {
@@ -47,31 +47,30 @@ export class RegisterComponent implements OnInit {
       firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       lastName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       company: new FormControl('', [Validators.required]),
-      emailAddress:  new FormControl('', [
+      emailAddress: new FormControl('', [
         Validators.required,
         Validators.email,
         multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
       password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
     });
-    
+
   }
-  public submit():void {
+  public submit(): void {
     this.authService.registerUser(this.SignUpForm.value).subscribe({
-      next: (response:any)=> {
+      next: (response: any) => {
         localStorage.setItem('userResponse', JSON.stringify(response));
         this.router.navigate(['/user-verification']);
-        this.toastr.success(response.message,'Success');
+        this.toastr.success(response.message, 'Success');
       },
       error: (err) => {
-        this.toastr.error(err,'Error');
+        this.toastr.error(err, 'Error');
       }
     }
     )
   }
-  public signInWithGoogle():void{
+  public signInWithGoogle(): void {
     this.oAuthservice.login();
   }
-
 
  
 }

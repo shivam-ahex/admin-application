@@ -10,7 +10,7 @@ describe('UserVerificationComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserVerificationComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserVerificationComponent);
     component = fixture.componentInstance;

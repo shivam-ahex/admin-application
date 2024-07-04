@@ -68,7 +68,7 @@
               {
               <div class="text-danger">Email Id is required</div>
               }
-              
+
               <div *ngIf="SignUpForm.get('emailAddress')?.hasError('multiDomain')">
                 <div class="text-danger">Invalid email domain. Use 'ahex.co.in' or 'gmail.com'</div>
               </div>
@@ -109,7 +109,8 @@
           <div class="row">
             <div class="col">
               <div class="d-grid">
-                <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted" (click)="signInWithGoogle()">
+                <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted"
+                  (click)="signInWithGoogle()">
                   <img src="assets/images/authentication/google.svg" alt="google img" />
                   <span class="d-none d-sm-inline-block">Google</span>
                 </button>
@@ -125,7 +126,7 @@
               </div>
             </div> -->
           </div>
-        
+
         </div>
       </div>
 
@@ -147,5 +148,5 @@
         <!-- </div> -->
       </div>
     </div>
-      </div>
-    </div>
+  </div>
+</div>

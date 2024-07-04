@@ -9,7 +9,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-forget-password',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule,ToastrModule],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, CommonModule, ToastrModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss'
 })
@@ -21,7 +21,7 @@ export class ForgetPasswordComponent implements OnInit {
     private authService: AuthenticationService,
     private route: Router,
     private formBuilder: FormBuilder,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) { }
   ngOnInit(): void {
     this.ForgetForm = this.formBuilder.group({
@@ -36,11 +36,11 @@ export class ForgetPasswordComponent implements OnInit {
     if (this.ForgetForm.valid) {
       this.authService.forgetPassword(this.ForgetForm.value).subscribe({
         next: (response) => {
-          this.toastr.success(response.message,'Success')
+          this.toastr.success(response.message, 'Success')
           this.route.navigate(['/reset-password'])
         },
         error: (error) => {
-           this.toastr.error(error,'Error')
+          this.toastr.error(error, 'Error')
         }
       }
       )

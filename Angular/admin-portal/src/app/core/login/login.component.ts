@@ -64,13 +64,16 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     if (this.loginForm.valid) {
-
+      debugger
       let loginData = this.loginForm.value;
+      //<---------------------------Not Required------------------------------->
+      //Fetching the user from the json server and storing in user varible
       let user = this.userInfo.filter((u: any) => u.emailAddress === loginData.email);
       localStorage.setItem('user', JSON.stringify(user[0]));
       if (user.length !== 0) {
         if (user[0].emailAddress === loginData.email && user[0].password === loginData.password) {
-          this.authenticationService.loginuser(this.loginForm.value).subscribe({
+      //<---------------------------Not Required------------------------------->
+          this.authenticationService.loginUser(this.loginForm.value).subscribe({
             next: (response: any) => {
               if (response) {
                 // Manually adding token and message

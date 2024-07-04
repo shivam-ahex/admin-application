@@ -13,26 +13,27 @@
                         <div class="form-group mb-3">
                             <label class="form-label" for="phoneNumber">Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" formControlName="phoneNumber"
-                                placeholder="Enter Phone number" /> 
-                                @if(phoneNumberForm.get('phoneNumber')){
-                                    @if(phoneNumberForm.get('phoneNumber')?.touched && phoneNumberForm.get('phoneNumber')?.hasError('required')){
-                                        <div class="text-danger">Required</div>
-                                    }
-                                    @if(phoneNumberForm.get('phoneNumber')?.hasError('pattern')){
-                                        <div class="text-danger">Enter valid 10 digit phone number</div>
-                                    }
-                                }    
+                                placeholder="Enter Phone number" />
+                            @if(phoneNumberForm.get('phoneNumber')){
+                            @if(phoneNumberForm.get('phoneNumber')?.touched &&
+                            phoneNumberForm.get('phoneNumber')?.hasError('required')){
+                            <div class="text-danger">Required</div>
+                            }
+                            @if(phoneNumberForm.get('phoneNumber')?.hasError('pattern')){
+                            <div class="text-danger">Enter valid 10 digit phone number</div>
+                            }
+                            }
                         </div>
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary" (click)="onSubmit()"
                                 [disabled]="phoneNumberForm.invalid">Submit</button>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between mt-4">
                             <a class="link-primary" [routerLink]="['/forget-password']">Change option</a>
                         </div>
                     </form>
-                    
+
                 </div>
             </div>
             <div class="auth-footer row">

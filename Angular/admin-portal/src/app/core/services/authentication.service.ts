@@ -23,35 +23,39 @@ export class AuthenticationService {
     return localStorage.getItem('token');
   }
 
-  public getData():Observable<any>{
+  public getData(): Observable<any> {
     return this.http.get<any>(`${environment.api_url}/users`)
   }
 
-  public loginuser(data: { email: string, password: string }): Observable<HttpResponse<any>> {
+  public loginUser(data: { email: string, password: string }): Observable<HttpResponse<any>> {
     return this.http.post<HttpResponse<any>>(`${environment.api_url}/users`, data)
   }
 
   public forgetPassword(data: { email: string }): Observable<any> {
     return this.http.post(`${environment.api_url}/users`, data);
   }
- 
-  public resetPassword(data: {newPassword: string }): Observable<any> {
+
+  public resetPassword(data: { newPassword: string }): Observable<any> {
     return this.http.post<any>(`${environment.api_url}/users`, data)
   }
 
-  public resetPhnNumber(data:{phoneNumber: number}): Observable<any>{
-    return this.http.post<any>(`${environment.api_url}/users`,data)
+  public resetPhnNumber(data: { phoneNumber: number }): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}/users`, data)
   }
 
-  public otpVerify(data:{otp:string}):Observable<any>{
-    return this.http.post<any>(`${environment.api_url}/users`,data)
+  public otpVerifyReset(data: { otp: string }): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}/users`, data)
   }
 
-  public userEmailVerify(email:{}):Observable<any>{
-    return this.http.post<any>(`${environment.api_url}/users`,email)
+  public userEmailVerify(email: {}): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}/users`, email)
   }
 
-  public userSmsVerify(phoneNumber: number):Observable<any>{
-    return this.http.post<any>(`${environment.api_url}/users`,phoneNumber)
+  public userSmsVerify(phoneNumber: number): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}/users`, phoneNumber)
   }
+  public otpVerify(data: { otp: string }): Observable<any> {
+    return this.http.post<any>(`${environment.api_url}/users`, data)
+  }
+
 } 

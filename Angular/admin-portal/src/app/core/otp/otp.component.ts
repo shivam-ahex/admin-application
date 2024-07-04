@@ -7,37 +7,37 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-otp',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,RouterModule,ToastrModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule, ToastrModule],
   templateUrl: './otp.component.html',
   styleUrl: './otp.component.scss'
 })
-export class OtpComponent implements OnInit{
+export class OtpComponent implements OnInit {
 
-  otpForm!:FormGroup
-  constructor(private formBuilder:FormBuilder,
-    private authService:AuthenticationService,
-    private route:Router,
+  otpForm!: FormGroup
+  constructor(private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
+    private route: Router,
     private toastr: ToastrService
-  ){}
+  ) { }
   ngOnInit(): void {
-    this.otpForm= this.formBuilder.group({
-      otp: ['',[Validators.required]]
+    this.otpForm = this.formBuilder.group({
+      otp: ['', [Validators.required]]
     }
     )
   }
-  public onSubmit():void {
-    if(this.otpForm.valid){
-      this.authService.otpVerify(this.otpForm.value).subscribe({
-        next:(response)=>{
-          this.toastr.success(response.message,'Success')
+  public onSubmit(): void {
+    if (this.otpForm.valid) {
+      this.authService.otpVerifyReset(this.otpForm.value).subscribe({
+        next: (response) => {
+          this.toastr.success(response.message, 'Success')
           this.route.navigate(['/reset-password'])
         },
-        error:(error)=>{
-          this.toastr.error(error,'Error')
+        error: (error) => {
+          this.toastr.error(error, 'Error')
         }
       })
-      }
-  
     }
-    
+
+  }
+
 }

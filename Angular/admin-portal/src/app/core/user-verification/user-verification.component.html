@@ -11,23 +11,25 @@
                             <h3 class="mb-0"><b>Account Verification</b></h3>
                         </div>
                         <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-primary" (click)="EmailVerificationUser()">Email verification</button>
+                            <button type="submit" class="btn btn-primary" (click)="EmailVerificationUser()">Email
+                                verification</button>
                             <div class="saprator mt-3">
                                 <span>Or</span>
                             </div>
-                            <button type="submit" class="btn btn-primary" (click)="this.showSmsForm=false;">SMS verification</button>
+                            <button type="submit" class="btn btn-primary" (click)="this.showSmsForm=false;">SMS
+                                verification</button>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="d-grid">
                                     <div class="d-flex justify-content-between mt-4">
-                                        <a [routerLink]="['/register']" class="link-primary">Back to Registe?</a>
+                                        <a [routerLink]="['/register']" class="link-primary">Back to Register?</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>}
-                    
+
                     @if(!showSmsForm){<form [formGroup]="userSmSVerifyForm" (ngSubmit)="onSubmit()">
                         <div class="d-flex justify-content-between align-items-end mb-4">
                             <h3 class="mb-0"><b>Account verify With Phone number</b></h3>
@@ -35,26 +37,27 @@
                         <div class="form-group mb-3">
                             <label class="form-label" for="phoneNumber">Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" formControlName="phoneNumber"
-                                placeholder="Enter Phone number" /> 
-                                @if(userSmSVerifyForm.get('phoneNumber')){
-                                    @if(userSmSVerifyForm.get('phoneNumber')?.touched && userSmSVerifyForm.get('phoneNumber')?.hasError('required')){
-                                        <div class="text-danger">Required</div>
-                                    }
-                                    @if(userSmSVerifyForm.get('phoneNumber')?.hasError('pattern')){
-                                        <div class="text-danger">Enter valid 10 digit phone number</div>
-                                    }
-                                }    
+                                placeholder="Enter Phone number" />
+                            @if(userSmSVerifyForm.get('phoneNumber')){
+                            @if(userSmSVerifyForm.get('phoneNumber')?.touched &&
+                            userSmSVerifyForm.get('phoneNumber')?.hasError('required')){
+                            <div class="text-danger">Required</div>
+                            }
+                            @if(userSmSVerifyForm.get('phoneNumber')?.hasError('pattern')){
+                            <div class="text-danger">Enter valid 10 digit phone number</div>
+                            }
+                            }
                         </div>
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary" (click)="onSubmit()"
                                 [disabled]="userSmSVerifyForm.invalid">Submit</button>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between mt-4">
-                            <a class="link-primary" >Back</a>
+                            <a class="link-primary">Back</a>
                         </div>
                     </form>}
-                    
+
                 </div>
             </div>
             <div class="auth-footer row">

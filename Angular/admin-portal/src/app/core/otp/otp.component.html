@@ -14,7 +14,7 @@
                             <input type="text" class="form-control" id="otp" formControlName="otp"
                                 placeholder="Enter OTP here" maxLength="10" />
                             @if(otpForm.get('otp')){
-                            @if(otpForm.get('otp')?.touched && otpForm.get('otp')?.hasError('required')  ){
+                            @if(otpForm.get('otp')?.touched && otpForm.get('otp')?.hasError('required') ){
                             <div class="text-danger">Required</div>
                             }
                             }
