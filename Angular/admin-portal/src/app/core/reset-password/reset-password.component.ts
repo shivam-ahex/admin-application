@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { PasswordValidator } from '../shared/resetPassword-validator';
 import { AuthenticationService } from '../services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { forbiddenSymbolsValidator } from '../shared/password.validator';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,7 +15,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './reset-password.component.scss'
 })
 export class ResetPasswordComponent implements OnInit {
+
   ResetForm!: FormGroup;
+  feildTextType?:boolean
   constructor(private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private router: Router,
@@ -22,12 +25,20 @@ export class ResetPasswordComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.ResetForm = this.formBuilder.group({
-      newPassword: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
-      reEnterPassword: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]]
-    }, { validators: PasswordValidator.passwordMatch });
-
-
+      newPassword: ['', [Validators.required, 
+        forbiddenSymbolsValidator(),
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
+      reEnterPassword: ['', [
+        Validators.required,
+        forbiddenSymbolsValidator(),
+        Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9  !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~€£¥₩])(?=.*?[A-Z 0-9]).{8,}$")]]
+    },{ validators: PasswordValidator.passwordMatch,});
   }
+
+  toggleFeildTextType(){
+    this.feildTextType= !this.feildTextType;
+  }
+  
   public onSubmit(): void {
     if (this.ResetForm.valid) {
       this.authService.resetPassword(this.ResetForm.value.newPassword).subscribe(

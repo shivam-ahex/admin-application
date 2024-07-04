@@ -13,7 +13,7 @@
                         <div class="form-group mb-3">
                             <label class="form-label" for="phoneNumber">Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" formControlName="phoneNumber"
-                                placeholder="Enter Phone number" />
+                            id="numberInput" placeholder="Enter Phone number" />
                             @if(phoneNumberForm.get('phoneNumber')){
                             @if(phoneNumberForm.get('phoneNumber')?.touched &&
                             phoneNumberForm.get('phoneNumber')?.hasError('required')){

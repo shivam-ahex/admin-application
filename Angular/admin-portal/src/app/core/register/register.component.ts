@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interface/auth';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { multiDomainValidator } from '../shared/email.validator';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthGoogleService } from '../services/Socialservices/auth-google.service';
+import { PasswordValidator } from '../shared/resetPassword-validator';
 
 @Component({
   selector: 'app-register',
@@ -41,18 +42,24 @@ export class RegisterComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private toastr: ToastrService,
+    private formBuilder:FormBuilder
   ) { }
   ngOnInit(): void {
-    this.SignUpForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
-      lastName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
-      company: new FormControl('', [Validators.required]),
-      emailAddress: new FormControl('', [
+    this.SignUpForm = this.formBuilder.group({
+      firstName:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      company: ['', [Validators.required]],
+      emailAddress: ['', [
         Validators.required,
         Validators.email,
-        multiDomainValidator(['ahex.co.in', 'gmail.com'])]),
-      password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
-    });
+        multiDomainValidator(['ahex.co.in', 'gmail.com'])]],
+      password: ['',
+         [Validators.required, 
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
+      confPassword:['',[Validators.required,
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
+      ]]
+    },{Validators:PasswordValidator.passwordMatch});
 
   }
   public submit(): void {
