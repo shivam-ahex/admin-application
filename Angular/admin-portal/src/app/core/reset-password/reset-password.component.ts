@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { PasswordValidator } from '../shared/resetPassword-validator';
 import { AuthenticationService } from '../services/authentication.service';
@@ -18,6 +18,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ResetForm!: FormGroup;
   feildTextType?:boolean
+  feildTextTypePwd?:boolean
   constructor(private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private router: Router,
@@ -25,16 +26,25 @@ export class ResetPasswordComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.ResetForm = this.formBuilder.group({
-      newPassword: ['', [Validators.required, 
-        forbiddenSymbolsValidator(),
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
-      reEnterPassword: ['', [
-        Validators.required,
-        forbiddenSymbolsValidator(),
-        Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9  !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~€£¥₩])(?=.*?[A-Z 0-9]).{8,}$")]]
-    },{ validators: PasswordValidator.passwordMatch,});
+      password: ['', [Validators.required, 
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'),this.noScriptingValidator()]],
+      reEnterPassword: ['', [Validators.required,this.noScriptingValidator()]]
+    }, { validators: PasswordValidator.passwordMatch });
   }
-
+  
+  // Custom validator to check for scripting codes
+  noScriptingValidator(): Validators {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value && /<|>|&|:|;/.test(value)) { // Add any other characters to test against
+        return { 'scriptingNotAllowed': true };
+      }
+      return null;
+    };
+  }
+  toggleFeildTextTypePwd(){
+    this.feildTextTypePwd= !this.feildTextTypePwd;
+  }
   toggleFeildTextType(){
     this.feildTextType= !this.feildTextType;
   }

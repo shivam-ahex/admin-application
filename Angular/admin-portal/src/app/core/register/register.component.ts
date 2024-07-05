@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../Interface/auth';
@@ -22,6 +22,8 @@ export class RegisterComponent implements OnInit {
 
   SignUpForm!: FormGroup;
   isLoggedin?: boolean = undefined;
+  feildTextType?:boolean
+  feildTextTypePwd?:boolean
   private oAuthservice = inject(AuthGoogleService);
 
   SignUpOptions: { image: string, name: string }[] = [
@@ -46,7 +48,7 @@ export class RegisterComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.SignUpForm = this.formBuilder.group({
-      firstName:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
       lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
       company: ['', [Validators.required]],
       emailAddress: ['', [
@@ -55,13 +57,37 @@ export class RegisterComponent implements OnInit {
         multiDomainValidator(['ahex.co.in', 'gmail.com'])]],
       password: ['',
          [Validators.required, 
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
-      confPassword:['',[Validators.required,
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
-      ]]
-    },{Validators:PasswordValidator.passwordMatch});
+          Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'),
+          this.noScriptingValidator()
+         ]],
+      reEnterPassword: ['',
+        [Validators.required,
+         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'),
+         this.noScriptingValidator()
+        ]],
+        question:['',[Validators.required]],
+        answer:['',[Validators.required]]
+    }, { validators:PasswordValidator.passwordMatch });
 
   }
+
+  // Custom validator to check for scripting codes
+ public noScriptingValidator(): Validators {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value && /<|>|&|:|;/.test(value)) { // Add any other characters to test against
+        return { 'scriptingNotAllowed': true };
+      }
+      return null;
+    };
+  }
+  toggleFeildTextTypePwd(){
+    this.feildTextTypePwd= !this.feildTextTypePwd;
+  }
+  toggleFeildTextType(){
+    this.feildTextType= !this.feildTextType;
+  }
+  
   public submit(): void {
     this.authService.registerUser(this.SignUpForm.value).subscribe({
       next: (response: any) => {

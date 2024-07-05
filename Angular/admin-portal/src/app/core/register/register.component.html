@@ -68,10 +68,9 @@
               {
               <div class="text-danger">Email Id is required</div>
               }
-
-              <div *ngIf="SignUpForm.get('emailAddress')?.hasError('multiDomain')">
-                <div class="text-danger">Invalid email domain. Use 'ahex.co.in' or 'gmail.com'</div>
-              </div>
+              @if(SignUpForm.get('emailAddress')?.hasError('multiDomain')){
+              <div class="text-danger">Invalid email domain. Use 'ahex.co.in' or 'gmail.com'</div>
+              }
               @if (SignUpForm.get('emailAddress')?.hasError('email') && SignUpForm.get('emailAddress')?.touched)
               {
               <div class="text-danger">Enter Valid email-id</div>
@@ -80,8 +79,15 @@
             </div>
             <div class="form-group mb-3">
               <label class="form-label" for="password">Password*</label>
-              <input type="password" class="form-control" id="password" formControlName="password"
-                placeholder="Password" />
+              <div class="input-group">
+                <input [type]="feildTextTypePwd ? 'text' : 'password'" class="form-control" formControlName="password"
+                  id="password" placeholder="Enter new password" />
+                <div class="input-group-append">
+                  <span class="input-group-text" (click)="toggleFeildTextTypePwd()">
+                    <i class="bi" [ngClass]="{'bi-eye-slash': !feildTextTypePwd, 'bi-eye': feildTextTypePwd}"></i>
+                  </span>
+                </div>
+              </div>
               @if (SignUpForm.get('password')) {
               @if (SignUpForm.get('password')?.hasError('required') && SignUpForm.get('password')?.touched)
               {
@@ -95,19 +101,52 @@
             </div>
             <div class="form-group mb-3">
               <label class="form-label" for="password">Conform Password*</label>
-              <input type="password" class="form-control" id="confPassword" formControlName="confPassword"
-                placeholder="Re-EnterPassword" />
-              @if (SignUpForm.get('confPassword')) {
-              @if (SignUpForm.get('confPassword')?.hasError('required') && SignUpForm.get('confPassword')?.touched)
+              <label class="form-label" for="reEnterPassword">Re-Enter Password</label>
+              <div class="input-group">
+                <input [type]="feildTextType ? 'text' : 'password'" class="form-control"
+                  formControlName="reEnterPassword" id="reEnterPassword" placeholder="Re-Enter new password" />
+                <div class="input-group-append">
+                  <span class="input-group-text" (click)="toggleFeildTextType()">
+                    <i class="bi" [ngClass]="{'bi-eye-slash': !feildTextType, 'bi-eye': feildTextType}"></i>
+                  </span>
+                </div>
+              </div>
+              @if (SignUpForm.get('reEnterPassword')) {
+              @if (SignUpForm.get('reEnterPassword')?.hasError('required') &&
+              SignUpForm.get('reEnterPassword')?.touched)
               {
               <div class="text-danger">Password is required</div>
               }
-              @if (SignUpForm.get('confPassword')?.hasError('pattern') && SignUpForm.get('confPassword')?.touched)
+              @if (SignUpForm.get('reEnterPassword')?.hasError('pattern') && SignUpForm.get('reEnterPassword')?.touched)
               {
               <div class="text-danger">Invalid password</div>
               }
-              @if(SignUpForm.get('confPassword')?.hasError('passwordMismatch')){
-                <div class="text-danger">Password Mismatch</div>
+              @if(SignUpForm.get('reEnterPassword')?.hasError('passwordMismatch')){
+              <div class="text-danger">Password Mismatch</div>
+              }
+              }
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="question">Select a security Question</label>
+              <select class="form-control" id="question" formControlName="question">
+                <option value="q1">Add your pet name</option>
+                <option value="q2">Add your native place</option>
+                <option value="q3">Add your favourite food</option>
+                <!-- Add more options as needed -->
+              </select>
+              @if (SignUpForm.get('question')?.hasError('required') && SignUpForm.get('question')?.touched)
+              {
+              <div class="text-danger">Required</div>
+              }
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="answer">Answer*</label>
+              <input type="text" class="form-control" id="answer" formControlName="answer"
+                placeholder="Answer here..." />
+              @if (SignUpForm.get('answer')) {
+              @if (SignUpForm.get('answer')?.hasError('required') && SignUpForm.get('company')?.touched)
+              {
+              <div class="text-danger">Required</div>
               }
               }
             </div>

@@ -26,7 +26,10 @@ export class ResetPhoneNumberComponent implements OnInit {
         Validators.pattern('^(?=.*?[0-9]).{10}$')]]
     })
   }
-
+  onInput(event: any): void {
+    const input = event.target;
+    input.value = input.value.replace(/[^0-9]/g, '');
+  }
   public onSubmit(): void {
     this.authService.resetPhnNumber(this.phoneNumberForm.value).subscribe(
       {

@@ -36,6 +36,10 @@ export class UserVerificationComponent implements OnInit {
         Validators.pattern('^(?=.*?[0-9]).{10}$')]]
     })
   }
+   onInput(event: any): void {
+    const input = event.target;
+    input.value = input.value.replace(/[^0-9]/g, '');
+  }
   public EmailVerificationUser(): void {
 
     if (this.user) {
@@ -43,7 +47,7 @@ export class UserVerificationComponent implements OnInit {
       this.authService.userEmailVerify(email).subscribe({
         next: (response) => {
           console.log(email)
-          this.toastr.success("Email link Sent Sucessfully", 'Success');
+          this.toastr.success(response.message, 'Success');
           this.route.navigate(['/login']);
 
         },

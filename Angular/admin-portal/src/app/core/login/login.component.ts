@@ -23,7 +23,7 @@ import { AuthInterceptor } from '../services/auth.interceptor';
 export class LoginComponent implements OnInit {
   userInfo: any
   private oAuthservice = inject(AuthGoogleService);
-
+  feildTextTypePwd!:boolean
   constructor(private authenticationService: AuthenticationService,
     private toastr: ToastrService,
     private route: Router
@@ -43,6 +43,9 @@ export class LoginComponent implements OnInit {
       }
     )
 
+  }
+  public toggleFeildTextTypePwd(){
+    this.feildTextTypePwd= !this.feildTextTypePwd;
   }
 
   SignInOptions: { image: string, name: string }[] = [

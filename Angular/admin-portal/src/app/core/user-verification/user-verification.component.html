@@ -37,7 +37,7 @@
                         <div class="form-group mb-3">
                             <label class="form-label" for="phoneNumber">Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" formControlName="phoneNumber"
-                                placeholder="Enter Phone number" />
+                                placeholder="Enter Phone number" (input)="onInput($event)" />
                             @if(userSmSVerifyForm.get('phoneNumber')){
                             @if(userSmSVerifyForm.get('phoneNumber')?.touched &&
                             userSmSVerifyForm.get('phoneNumber')?.hasError('required')){

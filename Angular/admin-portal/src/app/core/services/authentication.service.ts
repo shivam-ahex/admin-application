@@ -57,5 +57,8 @@ export class AuthenticationService {
   public otpVerify(data: { otp: string }): Observable<any> {
     return this.http.post<any>(`${environment.api_url}/users`, data)
   }
+  public restQuesPwd(data:{email:string,question:string,answer:string}):Observable<any>{
+    return this.http.post<any>(`${environment.api_url}/users`,data)
+  }
 
 } 

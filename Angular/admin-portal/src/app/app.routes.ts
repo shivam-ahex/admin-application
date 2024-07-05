@@ -44,6 +44,10 @@ export const routes: Routes = [
         loadComponent: ()=>import("./core/otp-verify/otp-verify.component").then(m=>m.OtpVerifyComponent)
     },
     {
+        path: 'reset-pwd-question',
+        loadComponent: ()=>import("./core/reset-pwd-question/reset-pwd-question.component").then(m=>m.ResetPwdQuestionComponent)
+    },
+    {
         path:'**',
         redirectTo:'login',
         pathMatch:'full'

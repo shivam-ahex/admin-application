@@ -3,5 +3,6 @@ export interface User {
     lastName?: string,
     company?: string,
     emailAddress?: string | undefined,
-    password?: string
+    password?: string,
+    question?: string
 }
